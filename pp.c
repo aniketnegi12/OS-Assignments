@@ -11,19 +11,20 @@ sem_t mutex;
 sem_t empty;   
 sem_t full;    
 
-void* producers(void* arg){
+void* producers(void *arg){
     for (int i = 0; i < n; i++)
     {
        int item;
-        printf("Enter item to produce: ");
+        printf("Enter item to produce: \n");
         scanf("%d", &item);
+        fflush(stdout);
 
         sem_wait(&empty);
         sem_wait(&mutex);
 
         buffer[in] = item;
 
-        printf("Produced: %d\n", item);
+        printf("Produced: %d\n",item);
         in = (in + 1) % N;
 
         sem_post(&mutex);
@@ -32,7 +33,7 @@ void* producers(void* arg){
     return NULL;
 }
 
-void* consumers(void* arg){
+void* consumers(void *arg){
     for (int i = 0; i < n; i++)
     {
         sem_wait(&full);
